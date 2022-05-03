@@ -1,0 +1,1 @@
+[{"id":1,"title":"Psiconalista","price":"5600","foto":"www.psiconalista.com","timestamp":"2022-05-03 17:30:32","descripcion":"descripcion producto"},{"id":2,"title":"Psiconalista","price":"5600","foto":"www.psiconalista.com","timestamp":"2022-05-03 17:30:49","descripcion":"descripcion producto"}]

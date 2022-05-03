@@ -1,10 +1,17 @@
 const Producto = require('../models/Producto')
 let listProductos = []
 const moment = require('moment')
+const fs = require('fs')
+
 
 class ProductoController
 {
 
+  writeFile(array_productos,name_file)
+    {
+        fs.writeFileSync(name_file,JSON.stringify(array_productos))
+
+    }
 
   update(idSearch,title,price,foto,descripcion,codigo,stock)
   {
@@ -21,6 +28,8 @@ class ProductoController
         listProductos[index].codigo       = codigo
         listProductos[index].stock        = stock
 
+        this.writeFile(listProductos,'productos.txt')
+
         return {'producto': listProductos[index]}
       }
 
@@ -34,10 +43,10 @@ class ProductoController
     else
       {
         listProductos.splice(encontrado,1);
+        //persisitir productos
+        this.writeFile(listProductos,'productos.txt')
         return listProductos
       }
-
-
 
   }
 
@@ -56,6 +65,9 @@ class ProductoController
 		let timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
 		const product = new Producto(this.getId()+1,title,price,foto,timestamp,descripcion,codigo,stock);
 		listProductos.push(product)
+
+    //persistir productos
+    this.writeFile(listProductos,'productos.txt')
 		return listProductos;
 	}
 
@@ -64,7 +76,7 @@ class ProductoController
 		return {'productos':listProductos};
 	}
 
-	 getId()
+	getId()
 	{
     if(!listProductos.length)return 0;
 

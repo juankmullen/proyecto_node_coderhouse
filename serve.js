@@ -6,18 +6,24 @@ const { Router } = express
 const listProductos = []
 
 const ProductoController = require('./controllers/ProductoController')
+const CarroController = require('./controllers/CarroController')
 
 
-const app       = express()
-const router    = Router()
+const app               = express()
+const routerProducto    = Router()
+const routerCarro       = Router()
+
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 
 
 let LogicProductos = new  ProductoController();
+let LogicCarros = new  CarroController();
 
-router.put('/',(req,res)=>{
+
+//logica productos
+routerProducto.put('/',(req,res)=>{
     res.send(LogicProductos.update( req.body.id,
                                     req.body.title,
                                     req.body.price,
@@ -27,7 +33,7 @@ router.put('/',(req,res)=>{
                                     req.body.stock))
 })
 
-router.post('/',(req,res)=>{
+routerProducto.post('/',(req,res)=>{
     res.send(LogicProductos.store(req.body.title,
                                   req.body.price,
                                   req.body.foto,
@@ -36,21 +42,30 @@ router.post('/',(req,res)=>{
                                   req.body.stock))
 })
 
-router.get('/:id',(req,res)=>{
+routerProducto.get('/:id',(req,res)=>{
     res.send(LogicProductos.getProducto(req.params.id))
 })
 
-router.delete('/:id',(req,res)=>{
+routerProducto.delete('/:id',(req,res)=>{
     res.send(LogicProductos.deleteProducto(req.params.id))
 })
 
-router.get('/',(req,res)=>{
+routerProducto.get('/',(req,res)=>{
     res.send(LogicProductos.getProductos())
 })
 
+// Logica Carros
+routerCarro.post('/',(req,res)=>{
+    res.send(LogicCarros.store())
+})
+
+routerCarro.delete('/:id',(req,res)=>{
+    res.send(LogicCarros.deleteCarro(req.params.id))
+})
 
 
-app.use('/api/productos',router)
+app.use('/api/productos',routerProducto)
+app.use('/api/carrito',routerCarro)
 
 
 
