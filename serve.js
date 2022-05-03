@@ -17,7 +17,16 @@ app.use(express.urlencoded({extended: true}))
 
 let LogicProductos = new  ProductoController();
 
-// todos los productos
+router.put('/',(req,res)=>{
+    res.send(LogicProductos.update( req.body.id,
+                                    req.body.title,
+                                    req.body.price,
+                                    req.body.foto,
+                                    req.body.descripcion,
+                                    req.body.codigo,
+                                    req.body.stock))
+})
+
 router.post('/',(req,res)=>{
     res.send(LogicProductos.store(req.body.title,
                                   req.body.price,

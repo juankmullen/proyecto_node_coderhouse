@@ -5,6 +5,27 @@ const moment = require('moment')
 class ProductoController
 {
 
+
+  update(idSearch,title,price,foto,descripcion,codigo,stock)
+  {
+    let index   =  listProductos.findIndex( element=>{ return element.id == idSearch})
+
+    if(index == -1)
+      return {'error': 'ID no encontrado'}
+    else
+      {
+        listProductos[index].title        = title
+        listProductos[index].price        = price
+        listProductos[index].foto         = foto
+        listProductos[index].descripcion  = descripcion
+        listProductos[index].codigo       = codigo
+        listProductos[index].stock        = stock
+
+        return {'producto': listProductos[index]}
+      }
+
+  }
+
   deleteProducto(idSearch)
   {
     let encontrado   =  listProductos.findIndex( element=>{ return element.id == idSearch})
