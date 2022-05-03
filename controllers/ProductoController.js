@@ -1,12 +1,39 @@
 const Producto = require('../models/Producto')
-
-const listProductos = []
+let listProductos = []
+const moment = require('moment')
 
 class ProductoController
 {
-    store()
+
+  deleteProducto(idSearch)
+  {
+    let encontrado   =  listProductos.findIndex( element=>{ return element.id == idSearch})
+    if(encontrado == -1)
+      return {'error': 'ID no encontrado'}
+    else
+      {
+        listProductos.splice(encontrado,1);
+        return listProductos
+      }
+
+
+
+  }
+
+  getProducto(idSearch)
+  {
+    const encontrado =   listProductos.filter(element=> element.id == idSearch)
+
+    if(encontrado.length)
+      return encontrado
+    else
+      return {'error': 'ID no encontrado'}
+  }
+
+  store(title,price,foto,descripcion,codigo,stock)
 	{
-		const product = new Producto( this.getId(),"vehiculo",1800,"www.google.cl");
+		let timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
+		const product = new Producto(this.getId()+1,title,price,foto,timestamp,descripcion,codigo,stock);
 		listProductos.push(product)
 		return listProductos;
 	}
@@ -16,18 +43,18 @@ class ProductoController
 		return {'productos':listProductos};
 	}
 
-	getId()
-	{ 
-		let indice = 0
+	 getId()
+	{
+    if(!listProductos.length)return 0;
 
-		if(listProductos.length == 0)
-			return 1
+    const ids = listProductos.map(object => {return object.id;});
+    let max = Math.max(...ids);
 
-		return  listProductos.reduce((anterior,actual)=> {return anterior.id > actual.id ? anterior : actual},1).id++
+    return max
 
 	}
 
-	
+
 }
 
 module.exports = ProductoController
