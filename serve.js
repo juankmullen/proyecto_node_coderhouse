@@ -55,12 +55,29 @@ routerProducto.get('/',(req,res)=>{
 })
 
 // Logica Carros
+
+//crear carro
 routerCarro.post('/',(req,res)=>{
     res.send(LogicCarros.store())
 })
 
+// eliminar carro
 routerCarro.delete('/:id',(req,res)=>{
     res.send(LogicCarros.deleteCarro(req.params.id))
+})
+
+//get productos de carro especifico
+routerCarro.get('/:id/productos',(req,res)=>{
+    res.send(LogicCarros.getCarroProductos(req.params.id))
+})
+
+//set carro producto
+routerCarro.post('/:id/productos/:id_prod',(req,res)=>{
+    res.send(LogicCarros.setCarroProductos(req.params.id,req.params.id_prod))
+})
+
+routerCarro.delete('/:id/productos/:id_prod',(req,res)=>{
+    res.send(LogicCarros.deleteCarroProductos(req.params.id,req.params.id_prod))
 })
 
 
