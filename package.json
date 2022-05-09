@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon  serve.js --ext js,html,pug"
+    "start": "nodemon  app.js --ext js,html,pug",
+    "migrations": "node ./bd/create_tables.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,10 @@
     "knex": "^2.0.0",
     "moment": "^2.29.3",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "pg": "^8.7.3",
+    "pug": "^3.0.2",
+    "socket.io": "^4.5.0",
+    "sqlite3": "^5.0.8"
   }
 }
