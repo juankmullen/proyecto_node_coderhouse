@@ -1,5 +1,6 @@
 const socket = io()
 
+//envio de chat
 function submitChat(event) 
 {
     
@@ -8,12 +9,14 @@ function submitChat(event)
     let email       = document.getElementById("email");
     let msj         = document.getElementById("mensaje");
     let hora        = moment().format("DD/MM/YYYY HH:mm:ss");
-    let nodo = [{'email':email.value,'msj':msj.value,'created_at':hora}]
+    let nodo = {'email':email.value,'msj':msj.value,'created_at':hora}
 
     socket.emit('chat',nodo)
 
 
 }
+
+// envio de productos
 function submitForm(event)
     {
         event.preventDefault();
@@ -48,7 +51,7 @@ function submitForm(event)
 
     socket.on('chat_a_cliente', (data)=>{
 
-        
+console.log(data)
         $('#lista_chat').html("");
         
        
@@ -65,24 +68,3 @@ function submitForm(event)
             });
     })
 
-/*
-socket.on('mi mensaje', (data)=>{
-    console.log(data)
-})
-
-
-
-    btn.addEventListener('click', params=>{
-
-        let value = inputMensaje.value
-        socket.emit('mensaje',value)
-
-    })
-
-socket.on('mi mensaje',data=>{
-
-    var li = document.createElement("li");
-    li.appendChild(document.createTextNode(data));
-    parrafo.appendChild(li);
-    
-}) */

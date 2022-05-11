@@ -3,6 +3,7 @@ const pug = require('pug')
 
 let LogicaApi = require('./LogicaApi.js')
 let HandleFiles = require('./HandleFiles.js')
+let InsertMensajes = require('./bd/insertMensajes')
 
 let { Server : HttpServer }   = require('http')
 let { Server : IOServer }   = require('socket.io')
@@ -15,8 +16,9 @@ app.use(express.static('public'))
 const httpServer = new HttpServer(app)
 const io = new IOServer(httpServer)
 
-let logic   = new  LogicaApi(); 
-let file    = new  HandleFiles(); 
+let logic                  = new  LogicaApi(); 
+let file                   = new  HandleFiles(); 
+let messages               = new  InsertMensajes(); 
 
 app.post('/',(req,res)=>{
 
@@ -31,9 +33,10 @@ app.get('/',(req,res)=>{
     res.render('index')
 })
 
-io.on('connection',(socket)=>{
+io.on('connection',async(socket)=>{
+
     socket.emit('mi mensaje',logic.getProductos())
-    socket.emit('chat_a_cliente',file.getAll())
+    socket.emit('chat_a_cliente',await messages.selectMensajes())
 
     socket.on('notificacion',(nodo)=>
     {
@@ -41,11 +44,10 @@ io.on('connection',(socket)=>{
         io.sockets.emit('mi mensaje',logic.getProductos())
     })
 
-    socket.on('chat',(nodo)=>
+    socket.on('chat', (nodo)=>
     {
-        console.log(nodo)
-        file.save(nodo)
-        io.sockets.emit('chat_a_cliente',file.getAll())
+        messages.insertMensaje(nodo)
+        io.sockets.emit('chat_a_cliente',messages.selectMensajes())
     })
 
 })
