@@ -1,3 +1,4 @@
 node_modules/
 chat.txt
 carros.txt
+bd/ecommerce.sqlite3

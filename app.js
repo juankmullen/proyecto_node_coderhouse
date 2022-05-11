@@ -4,6 +4,7 @@ const pug = require('pug')
 let LogicaApi = require('./LogicaApi.js')
 let HandleFiles = require('./HandleFiles.js')
 let InsertMensajes = require('./bd/insertMensajes')
+let insertProductos = require('./bd/insertProductos')
 
 let { Server : HttpServer }   = require('http')
 let { Server : IOServer }   = require('socket.io')
@@ -19,6 +20,8 @@ const io = new IOServer(httpServer)
 let logic                  = new  LogicaApi(); 
 let file                   = new  HandleFiles(); 
 let messages               = new  InsertMensajes(); 
+let products               = new  insertProductos(); 
+
 
 app.post('/',(req,res)=>{
 
@@ -33,21 +36,27 @@ app.get('/',(req,res)=>{
     res.render('index')
 })
 
-io.on('connection',async(socket)=>{
+io.on('connection',async (socket)=>{
 
-    socket.emit('mi mensaje',logic.getProductos())
-    socket.emit('chat_a_cliente',await messages.selectMensajes())
+    let mensajes =  await messages.selectMensajes();
+    let productos = await products.selectProductos()
+    
+    socket.emit('mi mensaje',productos)
 
-    socket.on('notificacion',(nodo)=>
+    socket.emit('chat_a_cliente',mensajes)
+
+    socket.on('notificacion',async(nodo)=>
     {
-        logic.store(nodo)
-        io.sockets.emit('mi mensaje',logic.getProductos())
+        products.insertProducto(nodo)
+        let productos = await products.selectProductos()
+        io.sockets.emit('mi mensaje',productos)
     })
 
-    socket.on('chat', (nodo)=>
+    socket.on('chat', async(nodo)=>
     {
-        messages.insertMensaje(nodo)
-        io.sockets.emit('chat_a_cliente',messages.selectMensajes())
+        await messages.insertMensaje(nodo)
+        let mensajes =  await messages.selectMensajes();
+        io.sockets.emit('chat_a_cliente',mensajes)
     })
 
 })

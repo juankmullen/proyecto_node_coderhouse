@@ -24,7 +24,7 @@ function submitForm(event)
         var precio      = document.getElementById("price");
         var thumbnail   = document.getElementById("thumbnail");
 
-        let nodo = {'title': titulo.value,'price': precio.value,'thumbnail': thumbnail.value}
+        let nodo = {'name': titulo.value,'price': precio.value,'thumbnail': thumbnail.value}
         
         socket.emit('notificacion',nodo)
     }
@@ -33,10 +33,11 @@ function submitForm(event)
 
         $('#table-body').html("");
 
-        
-        data.forEach((element,index) => 
+        if(data && data.length)
+        {
+            data.forEach((element,index) => 
             {
-                const item= `<tr> <td>${element.title}</td> <td>${element.price}</td> 
+                const item= `<tr> <td>${element.name}</td> <td>${element.price}</td> 
                     <td style="max-width:100px">
                         <img style="max-width:100px; !important" src="${element.thumbnail}">
                     </td> </tr>`;
@@ -47,24 +48,28 @@ function submitForm(event)
                 $('#table-body tr:last').after(item);
 
             });
+        }
     })
 
     socket.on('chat_a_cliente', (data)=>{
+        
 
-console.log(data)
         $('#lista_chat').html("");
         
-       
-        data.forEach((element,index) => 
+            if(data && data.length)
             {
-                let item= `<li><span style="color:blue;font-weight:700">${element.email}</span> <span>[${element.created_at}]</span> 
-                            <span style="color:green;font-style:italic">${element.msj}</span></li>`;
+                data.forEach((element,index) => 
+                {
+                    let item= `<li><span style="color:blue;font-weight:700">${element.email}</span> <span>[${element.created_at}]</span> 
+                                <span style="color:green;font-style:italic">${element.msj}</span></li>`;
 
-                if(index ==0)
-                     $('#lista_chat').html(item);
-                else
-                    $('#lista_chat li:last').after(item);
+                    if(index ==0)
+                         $('#lista_chat').html(item);
+                    else
+                        $('#lista_chat li:last').after(item);
 
-            });
+                }); 
+            }
+        
     })
 

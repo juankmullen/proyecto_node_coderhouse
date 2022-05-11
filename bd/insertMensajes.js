@@ -3,18 +3,19 @@ const { knexSqLite } = require('./options/sqlite3');
 class MensajesSqlite3
 {
 
-   insertMensaje(mensajes)
+   async insertMensaje(mensajes)
    {
-        knexSqLite('mensajes').insert(mensajes).finally(()=>{knexSqLite.destroy()})
+        knexSqLite('mensajes')
+        .insert(mensajes)
+        .then((result)=>{console.log('OK')})
     }
 
-    selectMensajes()
+   async  selectMensajes()
     {
-       return  knexSqLite('mensajes')
+       return   knexSqLite('mensajes')
        .select('*')
        .then((result)=> { return result})
        .catch((err)=>{console.log(err)})
-       .finally(()=>{knexSqLite.destroy()})
 
 
     }

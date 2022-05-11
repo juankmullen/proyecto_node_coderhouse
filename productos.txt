@@ -1,1 +1,0 @@
-[{"id":1,"title":"Psiconalista","price":"5600","timestamp":"2022-05-04 21:36:00"},{"id":2,"title":"heladera","price":"1800","timestamp":"2022-05-04 21:36:12"}]
