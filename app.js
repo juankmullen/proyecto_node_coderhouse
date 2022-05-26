@@ -8,9 +8,7 @@ const serviceAccount = require("./db/serviceAccountKey.json");
 admin.initializeApp({credential: admin.credential.cert(serviceAccount)});
 const db                    = admin.firestore();
 const carroCollection       = db.collection('carro');
-let docCarro                = carroCollection.doc();
 const productoCollection    = db.collection('producto');
-let docProducto             = productoCollection.doc();
 
 // Controladores
 const ProductoController = require('./controllers/ProductoController')
@@ -23,8 +21,8 @@ const routerCarro       = Router()
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
-let LogicProductos = new  ProductoController();
-let LogicCarros = new  CarroController(docCarro);
+let LogicProductos = new  ProductoController(productoCollection);
+let LogicCarros = new  CarroController(carroCollection);
 
 
 //logica productos

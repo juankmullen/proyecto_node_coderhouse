@@ -7,6 +7,11 @@ const fs = require('fs')
 class ProductoController
 {
 
+  constructor(productoCollection)
+	{
+		this.db_productos = productoCollection
+	}
+
   writeFile(array_productos,name_file)
     {
         fs.writeFileSync(name_file,JSON.stringify(array_productos))

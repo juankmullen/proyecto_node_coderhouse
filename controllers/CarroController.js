@@ -5,10 +5,12 @@ const moment = require('moment')
 
 class CarroController
 {
-	constructor(docCarro)
+	constructor(carroCollection)
 	{
-		this.db_carros = docCarro
+		this.db_carros = carroCollection
 	}
+
+
 	async store()
 	{
 		let timestamp = moment().format('YYYY-MM-DD HH:mm:s');
@@ -16,7 +18,7 @@ class CarroController
 
 
 		try {
-			await this.db_carros.create(carro);
+			await this.db_carros.doc().set(carro);
 
 		} catch (error) {
 			console.log(error)
