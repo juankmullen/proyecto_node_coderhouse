@@ -1,13 +1,30 @@
 const Carro = require('../models/Carro')
 const moment = require('moment')
-const fs = require('fs')
-let listCarros = []
-let listProductos = []
 
 
 
 class CarroController
 {
+	constructor(docCarro)
+	{
+		this.db_carros = docCarro
+	}
+	async store()
+	{
+		let timestamp = moment().format('YYYY-MM-DD HH:mm:s');
+		const carro = {'timestamp': timestamp}
+
+
+		try {
+			await this.db_carros.create(carro);
+
+		} catch (error) {
+			console.log(error)
+		}
+
+		return {'id': carro.id};
+	}
+
 	deleteCarroProductos(id_carro,id_prod)
 	{
 		this.getDataTextProductos()
@@ -90,16 +107,7 @@ class CarroController
 	    return max
 	}
 
-	store()
-	{
-		let timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
-		const carro = new Carro(this.getId()+1,timestamp);
-		listCarros.push(carro)
-
-    	//persistir productos
-    	this.writeFile(listCarros,'carros.txt')
-		return {'id': carro.id};
-	}
+	
 
 	getDataTextProductos()
     {

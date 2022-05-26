@@ -1,68 +1,95 @@
+const { application } = require('express')
 const express = require('express')
-const pug = require('pug')
+const { Router } = express
+const admin = require("firebase-admin");
 
-let LogicaApi = require('./LogicaApi.js')
-let HandleFiles = require('./HandleFiles.js')
-let InsertMensajes = require('./bd/insertMensajes')
-let insertProductos = require('./bd/insertProductos')
+//firebase 
+const serviceAccount = require("./db/serviceAccountKey.json");
+admin.initializeApp({credential: admin.credential.cert(serviceAccount)});
+const db                    = admin.firestore();
+const carroCollection       = db.collection('carro');
+let docCarro                = carroCollection.doc();
+const productoCollection    = db.collection('producto');
+let docProducto             = productoCollection.doc();
 
-let { Server : HttpServer }   = require('http')
-let { Server : IOServer }   = require('socket.io')
+// Controladores
+const ProductoController = require('./controllers/ProductoController')
+const CarroController = require('./controllers/CarroController')
+
+const app               = express()
+const routerProducto    = Router()
+const routerCarro       = Router()
+
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
+
+let LogicProductos = new  ProductoController();
+let LogicCarros = new  CarroController(docCarro);
 
 
-const app = express()
-app.set('view engine','pug')
-app.use(express.static('public'))
-
-const httpServer = new HttpServer(app)
-const io = new IOServer(httpServer)
-
-let logic                  = new  LogicaApi(); 
-let file                   = new  HandleFiles(); 
-let messages               = new  InsertMensajes(); 
-let products               = new  insertProductos(); 
-
-
-app.post('/',(req,res)=>{
-
-    res.render("confirm",{
-    ruta                : '/productos/',
-    nm_button           : 'Ver Productos'})
+//logica productos
+routerProducto.put('/',(req,res)=>{
+    res.send(LogicProductos.update( req.body.id,
+                                    req.body.title,
+                                    req.body.price,
+                                    req.body.foto,
+                                    req.body.descripcion,
+                                    req.body.codigo,
+                                    req.body.stock))
 })
 
-app.use(express.static('./public'))
-
-app.get('/',(req,res)=>{
-    res.render('index')
+routerProducto.post('/',(req,res)=>{
+    res.send(LogicProductos.store(req.body.title,
+                                  req.body.price,
+                                  req.body.foto,
+                                  req.body.descripcion,
+                                  req.body.codigo,
+                                  req.body.stock))
 })
 
-io.on('connection',async (socket)=>{
+routerProducto.get('/:id',(req,res)=>{
+    res.send(LogicProductos.getProducto(req.params.id))
+})
 
-    let mensajes =  await messages.selectMensajes();
-    let productos = await products.selectProductos()
-    
-    socket.emit('mi mensaje',productos)
+routerProducto.delete('/:id',(req,res)=>{
+    res.send(LogicProductos.deleteProducto(req.params.id))
+})
 
-    socket.emit('chat_a_cliente',mensajes)
+routerProducto.get('/',(req,res)=>{
+    res.send(LogicProductos.getProductos())
+})
 
-    socket.on('notificacion',async(nodo)=>
-    {
-        products.insertProducto(nodo)
-        let productos = await products.selectProductos()
-        io.sockets.emit('mi mensaje',productos)
-    })
+// Logica Carros
 
-    socket.on('chat', async(nodo)=>
-    {
-        await messages.insertMensaje(nodo)
-        let mensajes =  await messages.selectMensajes();
-        io.sockets.emit('chat_a_cliente',mensajes)
-    })
+//crear carro
+routerCarro.post('/',(req,res)=>{
+    res.send(LogicCarros.store())
+})
 
+// eliminar carro
+routerCarro.delete('/:id',(req,res)=>{
+    res.send(LogicCarros.deleteCarro(req.params.id))
+})
+
+//get productos de carro especifico
+routerCarro.get('/:id/productos',(req,res)=>{
+    res.send(LogicCarros.getCarroProductos(req.params.id))
+})
+
+//set carro producto
+routerCarro.post('/:id/productos/:id_prod',(req,res)=>{
+    res.send(LogicCarros.setCarroProductos(req.params.id,req.params.id_prod))
+})
+
+routerCarro.delete('/:id/productos/:id_prod',(req,res)=>{
+    res.send(LogicCarros.deleteCarroProductos(req.params.id,req.params.id_prod))
 })
 
 
+app.use('/api/productos',routerProducto)
+app.use('/api/carrito',routerCarro)
 
 
 
-httpServer.listen(3000)
+
+app.listen(8080)
