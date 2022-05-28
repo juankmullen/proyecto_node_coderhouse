@@ -1,10 +1,15 @@
+const express = require('express')
+const app = express()
+const carroRouter = require('./src/routes/carro')
+let port = 8080
 
-let admin = require("firebase-admin");
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 
-let serviceAccount = require("./db/serviceAccountKey.json");
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+app.use('/api/carrito',carroRouter)
 
-module.exports = admin
+app.listen(port,()=>{
+  console.log(`Server corriendo en el puerto ${port}`)
+})
+
