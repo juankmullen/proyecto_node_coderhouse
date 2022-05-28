@@ -11,6 +11,11 @@ class CarrosDaoFirestore extends ContainerFirestore
     {
         let result = await super.getAll()
 
+        return result.docs.map((doc) => ({
+            info :doc.data().timestamp,
+            id: doc.id
+        }));
+
 
         return result
 

@@ -23,10 +23,7 @@ class ContainerFirestore
     {
         let datos = {}
         const snapshot = await this.collection.get()
-        return snapshot.docs.map((doc) => ({
-                                                info :doc.data().timestamp,
-                                                id: doc.id
-                                            }));
+        return snapshot
 
     }
 }
