@@ -7,32 +7,43 @@ class CarrosDaoFirestore extends ContainerFirestore
         super('carros');
     }
 
-    
+    async getDoc(id)
+    {
+        let nodo =  await super.getDoc(id)
+        let data = []
+
+        if(nodo !=0)
+        {
+            data = nodo.data
+            return {
+                id              : nodo.id,
+                timestamp       : data.timestamp,
+                productos       : data.productos,
+            }
+        }else
+        return 0
+        
+    }
+
+    async setProductCarro(id_carro,productCollection)
+    {
+        return await super.setProductCarro(id_carro,productCollection)
+    }
+
     async delete(id)
     {
         let result = await super.delete(id)
         return result
     }
 
-   async getDoc(id)
-   {
-        let result = await super.getDoc(id)
-
-        let error = result.error
-
-        if(error == 0)
-            return result.data.data()
-        else
-            return 0
-   }
-
     async getAll()
     {
         let result = await super.getAll()
 
         return result.docs.map((doc) => ({
-            info :doc.data().timestamp,
-            id: doc.id
+            id: doc.id,
+            timestamp :doc.data().timestamp,
+            productos :doc.data().productos
         }));
 
     }

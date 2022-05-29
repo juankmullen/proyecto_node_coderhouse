@@ -11,18 +11,20 @@ class ContainerFirestore
             this.collection = db.collection(collection)
         }
 
+    async setProductCarro(id_carro,productCollection)
+    {
+        let ref =this.collection.doc(id_carro)
+        ref.set(productCollection);
+        return await this.getDoc(id_carro)
+    }
     async getDoc(id)
     {
         const search  =  await this.collection.doc(id).get();
 
         if(search.exists)
-            {
-                await this.collection.doc(id).get();
-                return {error:0,data:search}
-
-            }
+            return {data:search.data(),id:search.id}
         else
-            return {error:1,data:[]}
+            return 0
     }
     async delete(id)
     {

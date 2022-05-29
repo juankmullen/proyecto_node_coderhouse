@@ -6,24 +6,37 @@ class ProductosDaoFirestore extends ContainerFirestore
     constructor(){
         super('productos');
     }
- 
-    async getDoc(id) 
+
+
+    async getDoc(id)
     {
-        let result = await super.getDoc(id)
+        let nodo =  await super.getDoc(id)
+        let data = []
 
-        let error = result.error
-
-        if(error == 0)
-            return result.data.data()
-        else
-            return 0
+        if(nodo !=0)
+        {
+            data = nodo.data
+            return {
+                id          : nodo.id,
+                title       : data.title,
+                price       : data.price,
+                foto        : data.foto,
+                descripcion : data.descripcion,
+                codigo      : data.codigo,
+                stock       : data.stock,
+            }
+        }else
+        return 0
+        
     }
+
 
     async getAll()
     {
         let result = await super.getAll()
         
         return result.docs.map((doc) => ({
+            id          : doc.id,
             title       : doc.data().title,
             price       : doc.data().price,
             foto        : doc.data().foto,
