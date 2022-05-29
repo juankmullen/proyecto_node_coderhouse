@@ -19,7 +19,6 @@ class CarrosDaoFirestore extends ContainerFirestore
         let result = await super.getDoc(id)
 
         let error = result.error
-        console.log(error)
 
         if(error == 0)
             return result.data.data()
