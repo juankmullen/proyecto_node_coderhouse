@@ -11,12 +11,38 @@ class ContainerFirestore
             this.collection = db.collection(collection)
         }
 
+    async getDoc(id)
+    {
+        const search  =  await this.collection.doc(id).get();
+
+        if(search.exists)
+            {
+                await this.collection.doc(id).get();
+                return {error:0,data:search}
+
+            }
+        else
+            return {error:1,data:[]}
+    }
+    async delete(id)
+    {
+        const search  =  await this.collection.doc(id).get();
+        
+        if(search.exists)
+            {
+                await this.collection.doc(id).delete();
+                return {msj:'DOC Eliminado'}
+
+            }
+        else
+            return {msj:`No existe DOC : ${id}`}
+               
+    }
+
     async save(documento)
     {
-        let doc   =  this.collection.doc()
-        let item  = await doc.create(documento)
-
-        return item;
+        let doc   =   await this.collection.add(documento)
+        return {id:doc.id};
     }
 
     async getAll()

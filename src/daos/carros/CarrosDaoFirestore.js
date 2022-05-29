@@ -7,6 +7,26 @@ class CarrosDaoFirestore extends ContainerFirestore
         super('carros');
     }
 
+    
+    async delete(id)
+    {
+        let result = await super.delete(id)
+        return result
+    }
+
+   async getDoc(id)
+   {
+        let result = await super.getDoc(id)
+
+        let error = result.error
+        console.log(error)
+
+        if(error == 0)
+            return result.data.data()
+        else
+            return 0
+   }
+
     async getAll()
     {
         let result = await super.getAll()
@@ -16,16 +36,13 @@ class CarrosDaoFirestore extends ContainerFirestore
             id: doc.id
         }));
 
-
-        return result
-
     }
 
     async save()
     {
         let timestamp   = moment().format('YYYY-MM-DD HH:mm:s');
 		const carro     = {'timestamp': timestamp}
-        let result      = super.save(carro); 
+        let result      = await super.save(carro); 
         return result;       
     }
 }
