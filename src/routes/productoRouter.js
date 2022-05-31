@@ -4,7 +4,7 @@ const productoRouter = Router()
 
 require('dotenv').config()
 
-let ruta = '../daos/carros/ProductosDaoFirestore'
+let ruta = '../daos/productos/ProductosDaoFirestore'
 
 if(process.env.CONTAINER == 'MONGO')
      ruta = '../daos/productos/ProductosDaoMongo'

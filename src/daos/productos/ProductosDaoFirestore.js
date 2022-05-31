@@ -3,9 +3,7 @@ const moment = require('moment')
 
 class ProductosDaoFirestore extends Container
 {
-    constructor(){
-        super('productos');
-    }
+    constructor(){super('productos');}
 
 
     async getDoc(id)
