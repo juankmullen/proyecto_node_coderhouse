@@ -1,8 +1,8 @@
-const {ProductosDaoFirestore } = require('../productos/ProductosDaoFirestore')
-const productoDaoFirestore = new ProductosDaoFirestore();
+const {ProductosDao } = require('../productos/ProductosDaoFirestore')
+const productoDao = new ProductosDao();
 
-const {CarrosDaoFirestore } = require('../carros/CarrosDaoFirestore')
-const carrosDaoFirestore = new CarrosDaoFirestore();
+const {CarrosDao } = require('../carros/CarrosDaoFirestore')
+const carrosDao = new CarrosDao();
 
 
 
@@ -13,12 +13,12 @@ class CarroProductosDao
     async addProduct(id_product, id_carro)
     {
         let products  = []
-        let producto = await productoDaoFirestore.getDoc(id_product)
+        let producto = await productoDao.getDoc(id_product)
 
         if(producto == 0)
             return {'msj':'Producto inexistente'}
 
-        let  carro = await carrosDaoFirestore.getDoc(id_carro);
+        let  carro = await carrosDao.getDoc(id_carro);
         
         if(carro == 0)
             return {'msj':'Carro inexistente'}
@@ -31,11 +31,11 @@ class CarroProductosDao
         }else
             products = producto
 
-        return await carrosDaoFirestore.setProductCarro(id_carro,{productos:products})
+        return await carrosDao.setProductCarro(id_carro,{productos:products})
         
     }
 
 }
 
 
-module.exports = {CarroProductos}
+module.exports = {CarroProductosDao}

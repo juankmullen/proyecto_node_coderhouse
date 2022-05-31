@@ -1,6 +1,4 @@
 require('dotenv').config()
-const {ProductosDaoFirestore } = require('../productos/ProductosDaoFirestore')
-const productoDaoFirestore = new ProductosDaoFirestore();
 
 
 let rutaProduct = '../productos/ProductosDaoFirestore';

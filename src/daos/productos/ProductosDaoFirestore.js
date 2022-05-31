@@ -1,7 +1,7 @@
 const {Container} = require('../../contenedores/ContainerFirestore')
 const moment = require('moment')
 
-class ProductosDaoFirestore extends Container
+class ProductosDao extends Container
 {
     constructor(){super('productos');}
 
@@ -63,4 +63,4 @@ class ProductosDaoFirestore extends Container
 }
 
 
-module.exports = {ProductosDaoFirestore}
+module.exports = {ProductosDao}
