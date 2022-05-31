@@ -4,7 +4,7 @@ admin.initializeApp({credential: admin.credential.cert(serviceAccount)});
 
 const db = admin.firestore()
 
-class ContainerFirestore 
+class Container
 {
     constructor(collection)
         {
@@ -57,4 +57,4 @@ class ContainerFirestore
 }
 
 
-module.exports = {ContainerFirestore};
+module.exports = {Container};

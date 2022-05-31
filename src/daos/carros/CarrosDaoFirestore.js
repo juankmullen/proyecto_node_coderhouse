@@ -1,7 +1,7 @@
-const {ContainerFirestore} = require('../../contenedores/ContainerFirestore')
+const {Container} = require('../../contenedores/ContainerFirestore')
 const moment = require('moment')
 
-class CarrosDaoFirestore extends ContainerFirestore 
+class CarrosDao extends Container
 {
     constructor(){
         super('carros');
@@ -58,4 +58,4 @@ class CarrosDaoFirestore extends ContainerFirestore
 }
 
 
-module.exports = {CarrosDaoFirestore}
+module.exports = {CarrosDao}

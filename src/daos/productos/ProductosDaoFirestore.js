@@ -1,7 +1,7 @@
-const {ContainerFirestore} = require('../../contenedores/ContainerFirestore')
+const {Container} = require('../../contenedores/ContainerFirestore')
 const moment = require('moment')
 
-class ProductosDaoFirestore extends ContainerFirestore 
+class ProductosDaoFirestore extends Container
 {
     constructor(){
         super('productos');

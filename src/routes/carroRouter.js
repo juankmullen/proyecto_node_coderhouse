@@ -2,33 +2,42 @@ const express = require('express')
 const {Router} = express
 const carroRouter = Router()
 
-const {CarrosDaoFirestore } = require('../daos/carros/CarrosDaoFirestore')
-const carrosDaoFirestore = new CarrosDaoFirestore();
+require('dotenv').config()
+
+let ruta = '../daos/carros/CarrosDaoFirestore'
+
+if(process.env.CONTAINER == 'MONGO')
+     ruta = '../daos/carros/CarrosDaoMongo'
+
+
+const {CarrosDao } = require(ruta)
+
+const carrosDao = new CarrosDao();
 
 
 // get id carro
 carroRouter.get('/:id', async (req,res)=>{
-    let carros =  await carrosDaoFirestore.getDoc(req.params.id)
+    let carros =  await carrosDao.getDoc(req.params.id)
     
     res.json({'carros': carros})
 })
 
 // get all carros
 carroRouter.get('/', async (req,res)=>{
-    let carros =  await carrosDaoFirestore.getAll()
+    let carros =  await carrosDao.getAll()
     
     res.json({'carros': carros})
 })
 
 //create carro
 carroRouter.post('/', async (req,res)=>{
-    let carros = await carrosDaoFirestore.save()
+    let carros = await carrosDao.save()
     res.json({carros})
 })
 
 //delete carro
 carroRouter.delete('/:id', async (req,res)=>{
-    let msj = await carrosDaoFirestore.delete(req.params.id)
+    let msj = await carrosDao.delete(req.params.id)
     res.json(msj)
 })
 

@@ -1,4 +1,3 @@
-
 const {ProductosDaoFirestore } = require('../productos/ProductosDaoFirestore')
 const productoDaoFirestore = new ProductosDaoFirestore();
 
@@ -7,8 +6,10 @@ const carrosDaoFirestore = new CarrosDaoFirestore();
 
 
 
-class CarroProductosDaoFirestore 
+class CarroProductosDao
 {
+    
+
     async addProduct(id_product, id_carro)
     {
         let products  = []
@@ -37,4 +38,4 @@ class CarroProductosDaoFirestore
 }
 
 
-module.exports = {CarroProductosDaoFirestore}
+module.exports = {CarroProductos}

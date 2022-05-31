@@ -1,9 +1,10 @@
 const express = require('express')
 const app = express()
-const carroRouter = require('./src/routes/carro')
-const productoRouter = require('./src/routes/producto')
-const carroProducto = require('./src/routes/carroProducto')
-let port = 8080
+
+const carroRouter = require('./src/routes/carroRouter')
+const productoRouter = require('./src/routes/productoRouter')
+const carroProducto = require('./src/routes/carroProductoRouter')
+let port = process.env.PORT
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
