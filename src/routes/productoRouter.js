@@ -16,6 +16,13 @@ const {ProductosDao } = require(ruta)
 const productoDao = new ProductosDao();
 
 
+// get test
+productoRouter.get('/test', async (req,res)=>{
+    let productos =  await productoDao.test(req.params.id)
+    
+    res.json({'productos': productos})
+})
+
 // get /:id
 productoRouter.get('/:id', async (req,res)=>{
     let productos =  await productoDao.getDoc(req.params.id)

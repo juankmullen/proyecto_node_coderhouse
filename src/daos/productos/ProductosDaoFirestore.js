@@ -1,10 +1,40 @@
 const {Container} = require('../../contenedores/ContainerFirestore')
 const moment = require('moment')
+const  { faker } = require('@faker-js/faker');
 
 class ProductosDao extends Container
 {
     constructor(){super('productos');}
 
+    async test()
+    {
+        let productos = [];
+
+        for (let index = 0; index < 5; index++) {
+            let nodo = {
+                name : faker.commerce.productName(),
+                price : faker.commerce.price(100,10000),
+                foto : faker.image.imageUrl(),
+                descripcion : faker.lorem.text(),
+                codigo : faker.random.alphaNumeric(4),
+                stock :faker.random.numeric(3),
+                id : index
+            }
+
+            productos.push(nodo);
+            
+        }
+
+        return productos;
+        
+        // id          : nodo.id,
+        // title       : data.title,
+        // price       : data.price,
+        // foto        : data.foto,
+        // descripcion : data.descripcion,
+        // codigo      : data.codigo,
+        // stock       : data.stock,
+    }
 
     async getDoc(id)
     {
