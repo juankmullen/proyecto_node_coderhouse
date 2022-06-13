@@ -1,8 +1,9 @@
-let admin = require("firebase-admin");
-let serviceAccount = require("../../db/serviceAccountKey.json");
+let admin           = require("firebase-admin");
+let serviceAccount  = require("../../db/serviceAccountKey.json");
+
 admin.initializeApp({credential: admin.credential.cert(serviceAccount)});
 
-const db = admin.firestore()
+const db = admin.firestore();
 
 class Container
 {
