@@ -6,8 +6,8 @@ require('dotenv').config()
 
 let ruta = '../daos/mensajes/MensajesDaoFirestore'
 
-//if(process.env.CONTAINER == 'MONGO')
-//     ruta = '../daos/carros/CarrosDaoMongo'
+if(process.env.CONTAINER == 'MONGO')
+     ruta = '../daos/mensajes/MensajesDaoMongo'
 
 
 const {MensajesDao } = require(ruta)

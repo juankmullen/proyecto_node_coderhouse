@@ -30,8 +30,6 @@ class Container
         let existe =  await schema.exists({_id:id})
         let doc = schema.findOne({_id:id})
         return doc
-
-
     }
 
     async delete(schema,id)
