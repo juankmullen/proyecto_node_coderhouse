@@ -5,14 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon  server.js --ext js,html,pug"
+    "start": "nodemon  cookie.js --ext js,html,pug"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.1",
     "express": "^4.17.3",
+    "express-session": "^1.17.3",
     "firebase-admin": "^10.2.0",
     "moment": "^2.29.3",
     "mongoose": "^6.3.5",
