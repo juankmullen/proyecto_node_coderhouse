@@ -1,5 +1,6 @@
 const {Container} = require('../../contenedores/ContainerFirestore')
-const moment = require('moment')
+const {schema,normalize,denormalize } = require('normalizr')
+
 
 class MensajesDao extends Container
 {
@@ -11,9 +12,9 @@ class MensajesDao extends Container
     {
         let result = await super.getAll()
         
-        return result.docs.map((doc) => ({
+        let data =  result.docs.map((doc) => ({
             id          : doc.id,
-            autor : {
+            author : {
                 id          : doc.data().author.id,
                 nombre      : doc.data().author.nombre,
                 apellido    : doc.data().author.apellido,
@@ -23,6 +24,20 @@ class MensajesDao extends Container
             },
             text        : doc.data().text,
         }));
+
+        const autor         = new schema.Entity('autor')
+        const texto         = new schema.Entity('texto')
+
+        const mss       = new schema.Entity('chat',{
+            author  : autor,
+        })
+
+        const normalizedDta = normalize(data,[mss]) 
+
+        //return msj
+        return normalizedDta
+
+
 
     }
 
