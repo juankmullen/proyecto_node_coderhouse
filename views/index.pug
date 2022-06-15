@@ -11,29 +11,7 @@ html(lang='en')
 		div(class="row mt-5")
 			div(class="col-md-6 offset-3")
 
-				form(onsubmit='submitForm(event)')
-					
-					div(class="form-group")
-						label Titulo :
-						input(class="form-control",required,type="text",id="title",placeholder="Ingresar Titulo")
 
-					div(class="form-group")
-						label Precio :
-						input(class="form-control",required,type="text",id="price",placeholder="Ingresar Precio")
-
-					div(class="form-group")
-						label Thumbnail :
-						input(class="form-control",required,type="text",id="thumbnail",placeholder="Ingresar Thumbnail")
-
-
-					button(class="btn btn-block btn-success mt-3",type="submit") Enviar
-
-				table(class="table table-sm table-bordered mt-5",id="table")
-					thead
-						th Titulo
-						th Precio
-						th(style={'max-width':'100px'}) Thumbnail
-					tbody(id="table-body")
 
 				form(onsubmit='submitChat(event)')
 					
@@ -43,11 +21,11 @@ html(lang='en')
 
 					div(class="form-group")
 						label Mensaje :
-						input(class="form-control",required,type="text",maxlength="150",id="mensaje",placeholder="Ingresar Mensaje")
+						input(id="mensaje",class="form-control",required,type="text",maxlength="150",placeholder="Ingresar Mensaje")
 
-					button(class="btn btn-block btn-success mt-3",type="submit") Enviar Mensaje
+					button(id="btnMensaje",class="btn btn-block btn-success mt-3",type="submit") Enviar Mensaje
 
-				ol(id="lista_chat")
+				ol(id="parrafo")
 					
 						
 
