@@ -5,10 +5,14 @@ function submitChat(event)
     
     event.preventDefault();
 
+    let id_author   = document.getElementById("id_author");
+    let nombre      = document.getElementById("nombre");
+    let apellido    = document.getElementById("apellido");
     let email       = document.getElementById("email");
     let msj         = document.getElementById("mensaje");
+    let alias       = document.getElementById("alias");
     let hora        = moment().format("DD/MM/YYYY HH:mm:ss");
-    let nodo        = [{'email':email.value,'msj':msj.value,'created_at':hora}]
+    let nodo        = {'email':email.value,'msj':msj.value,'hora':hora,'id_author':id_author.value,'nombre':nombre.value,'apellido':apellido.value,'alias':alias.value}
 
     socket.emit('chat',nodo)
 
@@ -16,64 +20,30 @@ function submitChat(event)
 }
 
 
-    socket.on('mi mensaje', (data)=>{
+    socket.on('mi mensaje', (mensajes)=>{
 
         $('#table-body').html("");
-        console.log(data)
+        console.log(mensajes)
+        let data = mensajes.normalizado
+        let porc = mensajes.porc
+        $('#porc').html(porc);
+
+        let entities = data.entities;
+        let autor = data.entities.autor;
+        let chat = data.entities.chat;
+        let result = data.result;
 
         
-      /*  data.forEach((element,index) => 
+        result.forEach((element,index) => 
             {
-                const item= `<tr> <td>${element.title}</td> <td>${element.price}</td> 
-                    <td style="max-width:100px">
-                        <img style="max-width:100px; !important" src="${element.thumbnail}">
-                    </td> </tr>`;
+                const item= `<tr> <td>${chat[result[index]].time}</td> <td>${autor[chat[result[index]].author].email}</td> <td>${chat[result[index]].text}</td>  </tr>`;
 
                 if(index ==0)
                      $('#table-body').html(item);
                 else
                 $('#table-body tr:last').after(item);
 
-            }); */
-    })
-
-    socket.on('chat_a_cliente', (data)=>{
-
-        
-        $('#lista_chat').html("");
-        
-       
-        data.forEach((element,index) => 
-            {
-                let item= `<li><span style="color:blue;font-weight:700">${element.email}</span> <span>[${element.created_at}]</span> 
-                            <span style="color:green;font-style:italic">${element.msj}</span></li>`;
-
-                if(index ==0)
-                     $('#lista_chat').html(item);
-                else
-                    $('#lista_chat li:last').after(item);
-
             });
     })
 
-/*
-socket.on('mi mensaje', (data)=>{
-    console.log(data)
-})
-
-
-
-    btn.addEventListener('click', params=>{
-
-        let value = inputMensaje.value
-        socket.emit('mensaje',value)
-
-    })
-
-socket.on('mi mensaje',data=>{
-
-    var li = document.createElement("li");
-    li.appendChild(document.createTextNode(data));
-    parrafo.appendChild(li);
-    
-}) */
+   

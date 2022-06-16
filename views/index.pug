@@ -1,6 +1,6 @@
 html(lang='en')
 	head
-		title Tarea 6
+		title Desafio Normalizacion
 		link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css")
 		script(src="https://code.jquery.com/jquery-3.6.0.js",
 				integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=",
@@ -12,8 +12,25 @@ html(lang='en')
 			div(class="col-md-6 offset-3")
 
 
-
+				h1 Compresión 
+					label(id="porc")
 				form(onsubmit='submitChat(event)')
+
+					div(class="form-group")
+						label Nombre :
+						input(class="form-control",required,type="text",id="nombre",placeholder="Ingresar Nombre")
+
+					div(class="form-group")
+						label Apellido :
+						input(class="form-control",required,type="text",id="apellido",placeholder="Ingresar Apellido")
+
+					div(class="form-group")
+						label Alias :
+						input(class="form-control",required,type="text",id="alias",placeholder="Ingresar Alias")
+
+					div(class="form-group")
+						label ID Author :
+						input(class="form-control",required,type="numbre",id="id_author",placeholder="ID Author")
 					
 					div(class="form-group")
 						label Email :
@@ -25,7 +42,12 @@ html(lang='en')
 
 					button(id="btnMensaje",class="btn btn-block btn-success mt-3",type="submit") Enviar Mensaje
 
-				ol(id="parrafo")
+				table(class="table table-sm table-bordered mt-5",id="table")
+					thead
+						th Time
+						th Autor
+						th Mensaje
+					tbody(id="table-body")
 					
 						
 

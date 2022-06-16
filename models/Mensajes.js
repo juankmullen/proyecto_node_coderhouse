@@ -10,7 +10,8 @@ const mensajesSchema = new mongoose.Schema({
         apellido    : {type : String},
         edad        : {type : Number},
         alias       : {type : String},
-        avatar      : {type : String},
+        email       : {type : String},
+        time       :  {type : Date},
     },
     text        : {type : String},
 })
@@ -18,3 +19,4 @@ const mensajesSchema = new mongoose.Schema({
 
 const mensajes = mongoose.model(mensajesCollection,mensajesSchema)
 module.exports = {mensajes};
+

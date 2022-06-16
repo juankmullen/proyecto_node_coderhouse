@@ -27,13 +27,7 @@ class ProductosDao extends Container
 
         return productos;
         
-        // id          : nodo.id,
-        // title       : data.title,
-        // price       : data.price,
-        // foto        : data.foto,
-        // descripcion : data.descripcion,
-        // codigo      : data.codigo,
-        // stock       : data.stock,
+        
     }
 
     async getDoc(id)

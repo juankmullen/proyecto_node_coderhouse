@@ -18,15 +18,16 @@ class MensajesDao extends Container
                 id          : doc.data().author.id,
                 nombre      : doc.data().author.nombre,
                 apellido    : doc.data().author.apellido,
-                edad        : doc.data().author.edad,
                 alias       : doc.data().author.alias,
-                avatar      : doc.data().author.avatar,
+                email       : doc.data().author.email,
+                time        : doc.data().author.time,
             },
             text        : doc.data().text,
+            time        : doc.data().time,
+
         }));
 
         const autor         = new schema.Entity('autor')
-        const texto         = new schema.Entity('texto')
 
         const mss       = new schema.Entity('chat',{
             author  : autor,
@@ -35,26 +36,36 @@ class MensajesDao extends Container
         const normalizedDta = normalize(data,[mss]) 
 
         //return msj
-        return normalizedDta
+        return {'normalizedDta':normalizedDta,'result':result}
 
 
 
     }
 
-    async save(id_author,nombre,apellido,edad,alias,avatar,text)
+    async save(info)
     {
+        let  hora       = info.hora;
+        let  nombre     = info.nombre;
+        let  apellido   = info.apellido;
+        let  alias      = info.alias;
+        let  msj        = info.msj;
+        let  email      = info.email;
+        let  id_author  = info.id_author;
+
+        //{'email':email.value,'msj':msj.value,'created_at':hora,'id_author':id_author.value,'nombre':nombre.value,'apellido':apellido.value}
         let mensaje = {
             author : 
             {
                 id: id_author,
                 nombre: nombre,
                 apellido: apellido,
-                edad: edad,
                 alias: alias,
-                avatar: avatar,
-                text: text,
+                email: email,
             },
-        text : text}
+        text : msj,
+        time: hora,
+    }
+
 
         return await super.save(mensaje)
     }
