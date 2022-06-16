@@ -61,6 +61,7 @@ app.get('/api/productos/test',(req,res)=>{
 async function  getMensajes()
 {
   let mensajes = await mensajeDao.getAll()
+  console.log(mensajes)
 
   normalizado = mensajes.normalizedDta
   sin_normalizar = mensajes.result

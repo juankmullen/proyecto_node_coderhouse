@@ -52,7 +52,6 @@ class MensajesDao extends Container
         let  email      = info.email;
         let  id_author  = info.id_author;
 
-        //{'email':email.value,'msj':msj.value,'created_at':hora,'id_author':id_author.value,'nombre':nombre.value,'apellido':apellido.value}
         let mensaje = {
             author : 
             {

@@ -5,15 +5,17 @@ const mensajesCollection = 'mensajes';
 
 const mensajesSchema = new mongoose.Schema({
     author : {
-        id          : {type : Number},
+        id          : {type : String},
         nombre      : {type : String},
         apellido    : {type : String},
         edad        : {type : Number},
         alias       : {type : String},
         email       : {type : String},
-        time       :  {type : Date},
+        time       :  {type : String},
     },
     text        : {type : String},
+    time       :  {type : String},
+
 })
 
 

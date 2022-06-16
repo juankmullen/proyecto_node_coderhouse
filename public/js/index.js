@@ -44,6 +44,6 @@ function submitChat(event)
                 $('#table-body tr:last').after(item);
 
             });
-    })
+    }) 
 
    

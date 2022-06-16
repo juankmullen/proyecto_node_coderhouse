@@ -11,20 +11,29 @@ const util = require('util')
 class MensajesDao extends Container
 {
 
-    async save(id_author,nombre,apellido,edad,alias,avatar,text)
+    async save(info)
     {
+        let  hora       = info.hora;
+        let  nombre     = info.nombre;
+        let  apellido   = info.apellido;
+        let  alias      = info.alias;
+        let  msj        = info.msj;
+        let  email      = info.email;
+        let  id_author  = info.id_author;
+
         let mensaje = {
             author : 
             {
                 id: id_author,
                 nombre: nombre,
                 apellido: apellido,
-                edad: edad,
                 alias: alias,
-                avatar: avatar,
-                text: text,
+                email: email,
             },
-        text : text}
+        text : msj,
+        time: hora,
+    }
+    console.log(mensaje)
 
         return await super.save(mensajes,mensaje)
     }
@@ -37,15 +46,19 @@ class MensajesDao extends Container
         let  data =  msj.map((doc) => ({
             id          : doc._id,
             text        : doc.text,
+            time        : doc.time,
             author : {
                 id          : doc.author.id,
                 nombre      : doc.author.nombre,
                 apellido    : doc.author.apellido,
                 edad        : doc.author.edad,
                 alias       : doc.author.alias,
-                avatar      : doc.author.avatar,
+                email       : doc.author.email,
+                time        : doc.time,
+
             },
         }));
+
         
         const autor         = new schema.Entity('autor')
         const texto         = new schema.Entity('texto')
@@ -57,7 +70,7 @@ class MensajesDao extends Container
         const normalizedDta = normalize(data,[mss]) 
 
         //return msj
-        return normalizedDta
+        return {'normalizedDta':normalizedDta,'result':msj}
     }
     
 }

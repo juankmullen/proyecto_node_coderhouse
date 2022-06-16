@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const URL = 'mongodb://localhost:27017/ecommerce'
+const URL = 'mongodb://localhost:27017/coderhouse'
 let rta =  mongoose.connect(URL,{useNewUrlParser:true,useUnifiedTopology :true})
 console.log('conectado a mongo')
 
@@ -19,7 +19,9 @@ class Container
 
     async getAll(schema)
     {
-        return schema.find({})
+        let msj = schema.find({})
+        console.log(msj)
+        return msj
     }
 
     async get(schema,id)
