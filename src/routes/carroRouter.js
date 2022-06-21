@@ -25,7 +25,6 @@ carroRouter.get('/:id', async (req,res)=>{
 // get all carros
 carroRouter.get('/', async (req,res)=>{
     let carros =  await carrosDao.getAll()
-    
     res.json({'carros': carros})
 })
 

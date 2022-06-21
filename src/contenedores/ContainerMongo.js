@@ -1,7 +1,7 @@
+require('dotenv').config()
 const mongoose = require('mongoose')
-const URL = 'mongodb://localhost:27017/coderhouse'
+const URL = `mongodb+srv://${process.env.USERDB}:${process.env.PASSWORD}@${process.env.CLUSTER}/${process.env.DBNAME}?retryWrites=true&w=majority`
 let rta =  mongoose.connect(URL,{useNewUrlParser:true,useUnifiedTopology :true})
-console.log('conectado a mongo')
 
 class Container 
 {
@@ -20,7 +20,6 @@ class Container
     async getAll(schema)
     {
         let msj = schema.find({})
-        console.log(msj)
         return msj
     }
 

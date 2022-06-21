@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const pug = require('pug')
 require('dotenv').config()
@@ -11,8 +12,12 @@ const app = express()
 app.set('view engine','pug')
 app.use(express.static('./public'))
 
+
+
+
+
 app.use(session({
-  store: MongoStore.create({ mongoUrl: 'mongodb://localhost/sesiones',ttl:60}),
+  store: MongoStore.create({ mongoUrl: `mongodb+srv://${process.env.USERDB}:${process.env.PASSWORD}@${process.env.CLUSTER}/${process.env.DBNAME}?retryWrites=true&w=majority`,ttl:60}),
   secret: 'coderhouse',
   autoRemove: 'native',
   resave: false,
@@ -42,7 +47,6 @@ const {MensajesDao } = require(ruta)
 const mensajeDao = new MensajesDao();
 
 function checkAuth(req, res, next) {
-  console.log(req.session)
   if(req.session?.admin) {
       return next();
   }
@@ -92,8 +96,6 @@ app.get('/login', (req, res) => {
 async function  getMensajes()
 {
   let mensajes = await mensajeDao.getAll()
-  console.log(mensajes)
-
   normalizado = mensajes.normalizedDta
   sin_normalizar = mensajes.result
 

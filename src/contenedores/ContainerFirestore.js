@@ -35,7 +35,6 @@ class Container
             {
                 await this.collection.doc(id).delete();
                 return {msj:'DOC Eliminado'}
-
             }
         else
             return {msj:`No existe DOC : ${id}`}
