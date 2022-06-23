@@ -101,7 +101,7 @@ async function  getMensajes()
 
 
 
-/*io.on('connection', async (socket)=>{
+io.on('connection', async (socket)=>{
 
   let mensajes = await getMensajes()
 
@@ -118,7 +118,7 @@ async function  getMensajes()
   
 
   })
-}) */
+}) 
 
 
 httpServer.listen(port)
