@@ -11,6 +11,11 @@ html(lang='en')
 		div(class="row mt-5")
 			div(class="col-md-6 offset-3")
 
+				if username != ''
+					div(class="bg-success text-white p-4") 
+						button(class="btn tbn-sm btn-primary text-white") #{username} Loguedo exitosamente
+						a(href="/logout",class="btn btn-danger",style="float: right") Salir
+
 
 				h1 Compresión 
 					label(id="porc")

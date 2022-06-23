@@ -1,19 +1,14 @@
 require('dotenv').config()
 const express = require('express')
-const pug = require('pug')
 require('dotenv').config()
-const  { faker } = require('@faker-js/faker');
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
 let { Server : HttpServer }   = require('http')
-let { Server : IOServer }   = require('socket.io')
+let { Server : IOServer }   = require('socket.io');
 
 const app = express()
 app.set('view engine','pug')
 app.use(express.static('./public'))
-
-
-
 
 
 app.use(session({
@@ -47,50 +42,47 @@ const {MensajesDao } = require(ruta)
 const mensajeDao = new MensajesDao();
 
 function checkAuth(req, res, next) {
-  if(req.session?.admin) {
+  if(req.session?.logged) {
       return next();
   }
 
-  return res.status(401).send('Usted no tiene permisos')
+  res.render('login',{msj: 'Usted no tiene permisos'})
 }
 
-app.get('/privado', checkAuth, (req, res) => {
-  res.send('pagina logueado para admin')
-})
+
 
 
 app.get('/',(req,res)=>{
-  res.render('index',{root: __dirname})
+ // res.render('index',{root: __dirname})
+  res.render('login',{msj: 'Ingresar Usuario'})
 })
+
+app.get('/index',checkAuth,(req,res)=>{
+  let username = req.query.username
+  res.render('index',{username: username})
+
+ })
 
 
 app.get('/logout', (req, res) => {
-  req.session.destroy( error => {
-      if (error) {
-          res.send({status: 'Logout Error', body: error})
-      }
-  })
-
-  res.send('Usted ha cerrado sesion')
+  if(req.session.user)
+  {
+    let name = req.session.user
+    req.session.destroy()
+    res.render('login',{msj: 'Sesión Finalizada, hasta luego : '+name})
+  }
 })
 
-app.get('/login', (req, res) => {
-  const { username, password } = req.query
+app.post('/login',(req, res) => {
+  let username  = req.body.username
 
-  // Validacion de login (deberia hacerse comparando con informacion de base de datos)
-  if(username == 'coderhouse' && password == 'coder2022') {
-      req.session.user = username;
-      req.session.admin = true;
-      req.session.logged = true;
-  } else if(username == 'ameliendrez' && password == 'coder2022') {
+  if(username == 'JUANCARLOS'  ) {
       req.session.user = username;
       req.session.logged = true;
-  } else {
-      return res.send('Usuario o contraseña incorrecto')
-  }
+      res.redirect('/index?username='+username);
+  } else 
+      res.render('login',{msj: 'Usuario o contraseña incorrecto'})
 
-
-  return res.send('Login success')
 })
 
 async function  getMensajes()
@@ -109,7 +101,7 @@ async function  getMensajes()
 
 
 
-io.on('connection', async (socket)=>{
+/*io.on('connection', async (socket)=>{
 
   let mensajes = await getMensajes()
 
@@ -126,7 +118,7 @@ io.on('connection', async (socket)=>{
   
 
   })
-})
+}) */
 
 
 httpServer.listen(port)
