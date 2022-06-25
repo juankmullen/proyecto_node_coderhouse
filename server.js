@@ -1,18 +1,29 @@
 require('dotenv').config()
+let port = process.env.PORT
+
 const express = require('express')
-require('dotenv').config()
+const flash = require('connect-flash');
+const passport = require('passport')
+const LocalStrategy = require('passport-local')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
 let { Server : HttpServer }   = require('http')
 let { Server : IOServer }   = require('socket.io');
 
+//modelos mongo
+const UserModel = require('./models/usuarios');
+
+//ruta login
+const auth = require('./src/routes/auth')
+
 const app = express()
 app.set('view engine','pug')
 app.use(express.static('./public'))
 
+const {createHash,validatePass} = require('./src/utils/functions_bcrypt')
 
 app.use(session({
-  store: MongoStore.create({ mongoUrl: `mongodb+srv://${process.env.USERDB}:${process.env.PASSWORD}@${process.env.CLUSTER}/${process.env.DBNAME}?retryWrites=true&w=majority`,ttl:60}),
+  store: MongoStore.create({ mongoUrl: `mongodb+srv://${process.env.USERDB}:${process.env.PASSWORD}@${process.env.CLUSTER}/${process.env.DBNAME}?retryWrites=true&w=majority`,ttl:process.env.DURATION_SESSION}),
   secret: 'coderhouse',
   autoRemove: 'native',
   resave: false,
@@ -23,12 +34,90 @@ app.use(session({
 const httpServer = new HttpServer(app)
 const io = new IOServer(httpServer)
 
-let port = process.env.PORT
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(flash());
 
 app.use(express.static('./public'))
+
+passport.use('login', new LocalStrategy(
+  {passReqToCallback: true},(req,username, password, callback) => {
+      UserModel.findOne({ username: username }, (err, user) => {
+          if (err) {
+              return callback(err)
+          }
+
+          if (!user) {
+              let msj = 'No se encontro usuario';
+              return callback(null, false,req.flash('signMessage', msj))
+          }
+
+          if(!validatePass(user, password)) {
+              let msj = 'Contraseña Invalida';
+              return callback(null, false,req.flash('signMessage', msj))
+          }
+
+          return callback(null, user)
+      })
+  }
+))
+
+passport.use('signup', new LocalStrategy(
+  {passReqToCallback: true}, (req, username, password, callback) => {
+      UserModel.findOne({ username: username }, (err, user) => {
+          if (err) {
+              return callback(err)
+          }
+
+          if (user) {
+            let msj = 'El usuario ya existe'
+              return callback(null,false,req.flash('signupMessage', msj))
+          }
+
+
+          const newUser = {
+              firstName: req.body.firstname,
+              lastName: req.body.lastname,
+              email: req.body.email,
+              username: username,
+              password: createHash(password)
+          }
+
+
+
+          UserModel.create(newUser, (err, userWithId) => {
+              if (err) {
+                  return callback(err)
+              }
+
+
+              return callback(null, userWithId)
+          })
+      })
+  }
+))
+
+passport.serializeUser((user, callback) => {
+  callback(null, user._id)
+})
+
+passport.deserializeUser((id, callback) => {
+  UserModel.findById(id, callback)
+})
+
+//  LOGIN
+app.get('/login', auth.getLogin);
+app.post('/login', passport.authenticate('login', { failureRedirect: '/login',failureFlash : true}), auth.postLogin);
+
+//  SIGNUP
+app.get('/signup', auth.getSignup);
+app.post('/signup', passport.authenticate('signup', { failureRedirect: '/signup',failureFlash : true }), auth.postSignup);
+
+//  LOGOUT
+app.get('/logout', auth.getLogout);
 
 
 let ruta = './src/daos/mensajes/MensajesDaoFirestore'
@@ -51,39 +140,21 @@ function checkAuth(req, res, next) {
 
 
 
-
 app.get('/',(req,res)=>{
- // res.render('index',{root: __dirname})
   res.render('login',{msj: 'Ingresar Usuario'})
 })
 
-app.get('/index',checkAuth,(req,res)=>{
+app.get('/index',auth.checkAuthentication,(req,res)=>{
   let username = req.query.username
-  res.render('index',{username: username})
+  let email = req.query.email
+  res.render('index',{username: username,email:email})
 
  })
 
 
-app.get('/logout', (req, res) => {
-  if(req.session.user)
-  {
-    let name = req.session.user
-    req.session.destroy()
-    res.render('login',{msj: 'Sesión Finalizada, hasta luego : '+name})
-  }
-})
 
-app.post('/login',(req, res) => {
-  let username  = req.body.username
 
-  if(username == 'JUANCARLOS'  ) {
-      req.session.user = username;
-      req.session.logged = true;
-      res.redirect('/index?username='+username);
-  } else 
-      res.render('login',{msj: 'Usuario o contraseña incorrecto'})
 
-})
 
 async function  getMensajes()
 {
