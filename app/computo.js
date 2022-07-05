@@ -1,12 +1,11 @@
-process.on('message', (opciones)=>{
+process.on('message', (options)=>{
 var min = 1;
-var max = 1000;
+var max = 2000
 
-var x = Math.floor(Math.random()*(max-min+1)+min);
 
 let opciones = []
 
-for (let index = 0; index < opciones.largo; index++) 
+for (let index = 0; index < options.largo; index++) 
 {
  let num =  Math.floor(Math.random()*(max-min+1)+min)
 
@@ -26,7 +25,6 @@ for (let index = 0; index < opciones.largo; index++)
 
 
 }
-
 process.send(opciones)
 process.exit()
 

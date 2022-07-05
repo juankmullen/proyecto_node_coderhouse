@@ -1,5 +1,5 @@
 const {fork} = require('child_process');
-const forked = fork('computo.js')
+const forked = fork('app/computo.js')
 
 
 forked.send({largo: 20})
