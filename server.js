@@ -1,5 +1,8 @@
 require('dotenv').config()
 let port = process.env.PORT
+const yargs = require('yargs/yargs')(process.argv.slice(2))
+const args = yargs.default({port:8080}).argv
+const numCPUs = require('os').cpus().length
 
 const express = require('express')
 const flash = require('connect-flash');
@@ -9,6 +12,11 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo')
 let { Server : HttpServer }   = require('http')
 let { Server : IOServer }   = require('socket.io');
+const randomRouter      = require('./src/routes/randomsRouter')
+
+const {fork} = require('child_process');
+const forked = fork('app/computo.js')
+
 
 //modelos mongo
 const UserModel = require('./models/usuarios');
@@ -138,6 +146,31 @@ function checkAuth(req, res, next) {
   res.render('login',{msj: 'Usted no tiene permisos'})
 }
 
+app.get('/info',(req,res)=>{
+  res.json({'params'      :args,
+            'os'          :process.platform,
+            'node_version':process.versions.node,
+            'rss'         :process.memoryUsage().rss,
+            'pid'         :process.pid,
+            'folder'      :process.cwd(),
+            'cores'       :numCPUs,
+            'path'        :process.cwd()+'/server.js'})
+});
+
+randomRouter.get('/', (req,res)=>{
+  const forked = fork('app/computo.js')
+  
+  let cant = parseInt(req.query.cant|| 1e6) 
+
+  forked.send({largo: cant})
+
+  let salida = []
+   forked.on('message',msj=>{res.json(msj)})
+ 
+});
+
+
+app.use('/api/randoms',randomRouter)
 
 
 app.get('/',(req,res)=>{
@@ -150,11 +183,6 @@ app.get('/index',auth.checkAuthentication,(req,res)=>{
   res.render('index',{username: username,email:email})
 
  })
-
-
-
-
-
 
 async function  getMensajes()
 {

@@ -2,6 +2,7 @@ const { application } = require('express')
 const express = require('express')
 const {fork} = require('child_process');
 const forked = fork('app/computo.js')
+const numCPUs = require('os').cpus().length
 
 const yargs = require('yargs/yargs')(process.argv.slice(2))
 const args = yargs.default({port:8080}).argv
@@ -23,6 +24,7 @@ app.get('/info',(req,res)=>{
               'rss'         :process.memoryUsage().rss,
               'pid'         :process.pid,
               'folder'      :process.cwd(),
+              'cores'       :numCPUs,
               'path'        :process.cwd()+'/server.js'})
   });
   
