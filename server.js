@@ -17,6 +17,8 @@ const randomRouter      = require('./src/routes/randomsRouter')
 const {fork} = require('child_process');
 const forked = fork('app/computo.js')
 
+port = args.port
+
 
 //modelos mongo
 const UserModel = require('./models/usuarios');

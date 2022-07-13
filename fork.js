@@ -11,7 +11,11 @@ if(mode == 'fork')
     ejecucion = 'pm2 start server.js --name="Server X" --watch -- 8083'
 
 if(mode == 'cluster')
-    ejecucion = `pm2 start server.js --name="Servertest" --watch -i 2 -- ${port} `
+    ejecucion = `pm2 start server.js --name="Servertest" --watch -i max -- ${port} `
+
+if(mode == 'forever')
+    ejecucion = `forever start server.js --port  ${port} `
+
 
 
 exec( ejecucion,(error,stdout,stderr)=>{
