@@ -5,10 +5,13 @@ const { info } = require('console');
 
 let port        = args.port
 let mode        = args.mode
+let name        = args.name || "Server1"
 let ejecucion   = ''
 
+
+
 if(mode == 'fork')
-    ejecucion = 'pm2 start server.js --name="Server X" --watch -- 8083'
+    ejecucion = `pm2 start server.js --name="${name}" --watch -- ${port}`
 
 if(mode == 'cluster')
     ejecucion = `pm2 start server.js --name="Servertest" --watch -i max -- ${port} `

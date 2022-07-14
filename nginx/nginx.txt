@@ -1,0 +1,14 @@
+#Ejecutar via comandos modo fork,cluster y uso de forever
+
+#fork
+node run.js --name ="desafio30_1" --port 8080 --mode="fork"
+
+#cluster
+node run.js  --name="desafio30_2" --port 8081 -i max --mode ="cluster"
+
+#forever
+node run.js  --name="desafio30_3" --port 8082 --mode="forever"
+
+
+en nginx.conf1 se habilitan dos puertos el 8080 para / y el 8081 para /api/randoms
+en nginx.conf2 se habilitan los puertos 8082,8083,8084,8085 balanceando equitativamente la carga

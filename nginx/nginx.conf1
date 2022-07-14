@@ -1,0 +1,60 @@
+
+#user  nobody;
+worker_processes  1;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        logs/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+  
+
+    sendfile        on;
+
+    keepalive_timeout  65;
+
+    upstream node_app {
+        server 127.0.0.1:8081;
+    }
+
+    upstream node_app_main {
+        server 127.0.0.1:8080;
+    }
+
+
+    server {
+        listen       80;
+        server_name  nginx_node;
+
+        
+
+        location /api/randoms {
+            proxy_pass http://node_app;
+            
+        }
+
+        location / {
+            proxy_pass http://node_app_main;
+            
+        }
+
+        error_page   500 502 503 504  /50x.html;
+       
+
+       
+    }
+
+
+
+}

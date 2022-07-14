@@ -28,7 +28,7 @@ const auth = require('./src/routes/auth')
 
 const app = express()
 app.set('view engine','pug')
-app.use(express.static('./public'))
+//app.use(express.static('./public'))
 
 const {createHash,validatePass} = require('./src/utils/functions_bcrypt')
 

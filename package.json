@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon  app.js --ext js,html,pug"
+    "start": "node  app.js "
   },
   "keywords": [],
   "author": "",
@@ -19,6 +19,7 @@
     "express": "^4.17.3",
     "express-session": "^1.17.3",
     "firebase-admin": "^10.2.0",
+    "log4js": "^6.6.0",
     "moment": "^2.29.3",
     "mongoose": "^6.3.5",
     "mysql": "^2.18.1",
