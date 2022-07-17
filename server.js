@@ -1,4 +1,5 @@
 require('dotenv').config()
+
 let port = process.env.PORT
 const yargs = require('yargs/yargs')(process.argv.slice(2))
 const args = yargs.default({port:8080}).argv
@@ -13,9 +14,21 @@ const MongoStore = require('connect-mongo')
 let { Server : HttpServer }   = require('http')
 let { Server : IOServer }   = require('socket.io');
 const randomRouter      = require('./src/routes/randomsRouter')
+const compression = require('compression');
 
 const {fork} = require('child_process');
 const forked = fork('app/computo.js')
+
+const winston = require('winston')
+const logger = winston.createLogger({
+  level: 'warn',
+  transports :
+  [
+    new winston.transports.Console({level:'verbose'}),
+    new winston.transports.File({filename:'./logg/info.log',level:'warn'}), 
+  ]
+})
+
 
 port = args.port
 
@@ -27,10 +40,13 @@ const UserModel = require('./models/usuarios');
 const auth = require('./src/routes/auth')
 
 const app = express()
+app.use(compression())
+
 app.set('view engine','pug')
 //app.use(express.static('./public'))
 
 const {createHash,validatePass} = require('./src/utils/functions_bcrypt')
+
 
 app.use(session({
   store: MongoStore.create({ mongoUrl: `mongodb+srv://${process.env.USERDB}:${process.env.PASSWORD}@${process.env.CLUSTER}/${process.env.DBNAME}?retryWrites=true&w=majority`,ttl:process.env.DURATION_SESSION}),
@@ -145,6 +161,15 @@ function checkAuth(req, res, next) {
       return next();
   }
 
+function routeLogg(req, res, next) {
+        
+        logger.log('warn','/info')
+        return next();
+
+}
+    
+  
+
   res.render('login',{msj: 'Usted no tiene permisos'})
 }
 
@@ -221,5 +246,6 @@ io.on('connection', async (socket)=>{
   })
 }) 
 
+router.get('/*', callback())
 
 httpServer.listen(port)
