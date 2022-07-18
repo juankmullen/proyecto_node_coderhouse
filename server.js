@@ -3,7 +3,9 @@ let port = process.env.PORT
 const yargs = require('yargs/yargs')(process.argv.slice(2))
 const args = yargs.default({port:8080}).argv
 const numCPUs = require('os').cpus().length
+const compression = require('compression');
 
+const {loggerInfo,loggWarn,loggError} = require('./src/utils/logger')
 const express = require('express')
 const flash = require('connect-flash');
 const passport = require('passport')
@@ -27,6 +29,7 @@ const UserModel = require('./models/usuarios');
 const auth = require('./src/routes/auth')
 
 const app = express()
+app.use(compression())
 app.set('view engine','pug')
 //app.use(express.static('./public'))
 
@@ -140,6 +143,20 @@ const {MensajesDao } = require(ruta)
 
 const mensajeDao = new MensajesDao();
 
+const rutasExistentes = function loggerRoute(req, res, next) 
+{
+  loggerInfo.log('warn',{'ruta':req.path})
+  return next();
+}
+
+const rutasInexistentes = function loggerRoute(req, res, next) 
+{
+  loggWarn.log('error',{'ruta':req.path})
+  return next();
+}
+
+app.use(rutasExistentes)
+
 function checkAuth(req, res, next) {
   if(req.session?.logged) {
       return next();
@@ -221,5 +238,8 @@ io.on('connection', async (socket)=>{
   })
 }) 
 
+app.get('/*',rutasInexistentes,(req,res)=>{{
+  res.json({'msg':'Ruta Inexistente revisar ./logg/warn.log'})
+}})
 
 httpServer.listen(port)
