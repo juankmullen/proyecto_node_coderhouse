@@ -1,4 +1,6 @@
 require('dotenv').config()
+const autocannon = require('autocannon')
+const {PassThrough} = require('stream')
 let port = process.env.PORT
 const yargs = require('yargs/yargs')(process.argv.slice(2))
 const args = yargs.default({port:8080}).argv
@@ -119,6 +121,30 @@ passport.serializeUser((user, callback) => {
 passport.deserializeUser((id, callback) => {
   UserModel.findById(id, callback)
 })
+
+function run (url)
+{
+  const buf = []
+  const outputStream = new PassThrough()
+
+  const inst = autocannon({
+    url,
+    connection :50,
+    duration:20
+  })
+
+  autocannon.track(inst,outputStream)
+
+  outputStream.on('data',data=>buf.push(data))
+  inst.on('done',function(){ 
+    process.stdout.write(Buffer.concat(buf))
+  })
+
+  console.log('Corriendo rutas con 0x')
+  run('http:localhost:8080/api/randoms')
+
+
+}
 
 //  LOGIN
 app.get('/login', auth.getLogin);
