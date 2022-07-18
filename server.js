@@ -17,7 +17,6 @@ let { Server : IOServer }   = require('socket.io');
 const randomRouter      = require('./src/routes/randomsRouter')
 
 const {fork} = require('child_process');
-const forked = fork('app/computo.js')
 
 port = args.port
 
@@ -176,17 +175,6 @@ app.get('/info',(req,res)=>{
             'path'        :process.cwd()+'/server.js'})
 });
 
-randomRouter.get('/', (req,res)=>{
-  const forked = fork('app/computo.js')
-  
-  let cant = parseInt(req.query.cant|| 1e6) 
-
-  forked.send({largo: cant})
-
-  let salida = []
-   forked.on('message',msj=>{res.json(msj)})
- 
-});
 
 
 app.use('/api/randoms',randomRouter)

@@ -1,0 +1,155 @@
+Statistical profiling result from isolate-000001EF1E9226C0-16556-v8.log, (7683 ticks, 0 unaccounted, 0 excluded).
+
+ [Shared libraries]:
+   ticks  total  nonlib   name
+   7475   97.3%          C:\WINDOWS\SYSTEM32\ntdll.dll
+    201    2.6%          C:\Program Files\nodejs\node.exe
+      1    0.0%          C:\WINDOWS\System32\KERNELBASE.dll
+      1    0.0%          C:\WINDOWS\System32\KERNEL32.DLL
+
+ [JavaScript]:
+   ticks  total  nonlib   name
+      2    0.0%   40.0%  LazyCompile: *resolve path.js:153:10
+      1    0.0%   20.0%  LazyCompile: *readPackageScope internal/modules/cjs/loader.js:289:26
+      1    0.0%   20.0%  LazyCompile: *deserializeObject C:\repositorios\JC\proyecto_node_coderhouse\node_modules\bson\lib\parser\deserializer.js:65:27
+      1    0.0%   20.0%  LazyCompile: *<anonymous> C:\repositorios\JC\proyecto_node_coderhouse\src\routes\randomsRouter.js:10:22
+
+ [C++]:
+   ticks  total  nonlib   name
+
+ [Summary]:
+   ticks  total  nonlib   name
+      5    0.1%  100.0%  JavaScript
+      0    0.0%    0.0%  C++
+     10    0.1%  200.0%  GC
+   7678   99.9%          Shared libraries
+
+ [C++ entry points]:
+   ticks    cpp   total   name
+
+ [Bottom up (heavy) profile]:
+  Note: percentage shows a share of a particular caller in the total
+  amount of its parent calls.
+  Callers occupying less than 1.0% are not shown.
+
+   ticks parent  name
+   7475   97.3%  C:\WINDOWS\SYSTEM32\ntdll.dll
+
+    201    2.6%  C:\Program Files\nodejs\node.exe
+    128   63.7%    C:\Program Files\nodejs\node.exe
+     22   17.2%      LazyCompile: ~readSync fs.js:577:18
+     22  100.0%        LazyCompile: ~tryReadSync fs.js:379:21
+     22  100.0%          LazyCompile: ~readFileSync fs.js:391:22
+     20   90.9%            LazyCompile: ~Module._extensions..js internal/modules/cjs/loader.js:1094:37
+      2    9.1%            LazyCompile: ~Module._extensions..json internal/modules/cjs/loader.js:1119:39
+     14   10.9%      LazyCompile: ~wrapSafe internal/modules/cjs/loader.js:986:18
+     14  100.0%        LazyCompile: ~Module._compile internal/modules/cjs/loader.js:1039:37
+     14  100.0%          LazyCompile: ~Module._extensions..js internal/modules/cjs/loader.js:1094:37
+     14  100.0%            LazyCompile: ~Module.load internal/modules/cjs/loader.js:938:33
+     12    9.4%      LazyCompile: ~handleWriteReq internal/stream_base_commons.js:47:24
+     12  100.0%        LazyCompile: ~writeGeneric internal/stream_base_commons.js:143:22
+     12  100.0%          LazyCompile: ~Socket._writeGeneric net.js:761:42
+     12  100.0%            LazyCompile: ~Socket._write net.js:798:35
+      6    4.7%      LazyCompile: ~stat internal/modules/cjs/loader.js:146:14
+      4   66.7%        LazyCompile: ~Module._findPath internal/modules/cjs/loader.js:462:28
+      4  100.0%          LazyCompile: ~Module._resolveFilename internal/modules/cjs/loader.js:817:35
+      4  100.0%            LazyCompile: ~Module._load internal/modules/cjs/loader.js:725:24
+      2   33.3%        LazyCompile: ~tryFile internal/modules/cjs/loader.js:352:17
+      2  100.0%          LazyCompile: ~tryExtensions internal/modules/cjs/loader.js:368:23
+      1   50.0%            LazyCompile: ~tryPackage internal/modules/cjs/loader.js:306:20
+      1   50.0%            LazyCompile: ~Module._findPath internal/modules/cjs/loader.js:462:28
+      5    3.9%      LazyCompile: ~realpathSync fs.js:1718:22
+      4   80.0%        LazyCompile: ~toRealPath internal/modules/cjs/loader.js:361:20
+      4  100.0%          LazyCompile: ~tryFile internal/modules/cjs/loader.js:352:17
+      2   50.0%            LazyCompile: ~tryPackage internal/modules/cjs/loader.js:306:20
+      2   50.0%            LazyCompile: ~tryExtensions internal/modules/cjs/loader.js:368:23
+      1   20.0%        LazyCompile: *Module._findPath internal/modules/cjs/loader.js:462:28
+      1  100.0%          LazyCompile: ~Module._resolveFilename internal/modules/cjs/loader.js:817:35
+      1  100.0%            LazyCompile: ~Module._load internal/modules/cjs/loader.js:725:24
+      5    3.9%      LazyCompile: ~read internal/modules/package_json_reader.js:16:14
+      5  100.0%        LazyCompile: ~readPackage internal/modules/cjs/loader.js:258:21
+      5  100.0%          LazyCompile: ~resolveExports internal/modules/cjs/loader.js:440:24
+      5  100.0%            LazyCompile: ~Module._findPath internal/modules/cjs/loader.js:462:28
+      5    3.9%      LazyCompile: ~openSync fs.js:489:18
+      5  100.0%        LazyCompile: ~readFileSync fs.js:391:22
+      5  100.0%          LazyCompile: ~Module._extensions..js internal/modules/cjs/loader.js:1094:37
+      5  100.0%            LazyCompile: ~Module.load internal/modules/cjs/loader.js:938:33
+      5    3.9%      C:\Program Files\nodejs\node.exe
+      1   20.0%        LazyCompile: ~readPackage internal/modules/cjs/loader.js:258:21
+      1  100.0%          LazyCompile: ~resolveExports internal/modules/cjs/loader.js:440:24
+      1  100.0%            LazyCompile: ~Module._findPath internal/modules/cjs/loader.js:462:28
+      1   20.0%        LazyCompile: ~expressInit C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\middleware\init.js:29:30
+      1  100.0%          LazyCompile: ~handle C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\router\layer.js:86:49
+      1  100.0%            LazyCompile: ~trim_prefix C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\router\index.js:288:23
+      1   20.0%        LazyCompile: ~entitytag C:\repositorios\JC\proyecto_node_coderhouse\node_modules\etag\index.js:39:20
+      1  100.0%          LazyCompile: ~etag C:\repositorios\JC\proyecto_node_coderhouse\node_modules\etag\index.js:70:15
+      1  100.0%            LazyCompile: ~generateETag C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\utils.js:272:32
+      1   20.0%        LazyCompile: ~ServerDescription C:\repositorios\JC\proyecto_node_coderhouse\node_modules\mongodb\lib\sdam\server_description.js:34:16
+      1  100.0%          LazyCompile: ~<anonymous> C:\repositorios\JC\proyecto_node_coderhouse\node_modules\mongodb\lib\sdam\server.js:62:55
+      1  100.0%            LazyCompile: ~emit events.js:324:44
+      1   20.0%        LazyCompile: *<anonymous> C:\repositorios\JC\proyecto_node_coderhouse\src\routes\randomsRouter.js:10:22
+      1  100.0%          LazyCompile: *handle C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\router\layer.js:86:49
+      1  100.0%            LazyCompile: ~next C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\router\route.js:114:16
+      4    3.1%      LazyCompile: ~closeSync fs.js:456:19
+      4  100.0%        LazyCompile: ~readFileSync fs.js:391:22
+      4  100.0%          LazyCompile: ~Module._extensions..js internal/modules/cjs/loader.js:1094:37
+      4  100.0%            LazyCompile: ~Module.load internal/modules/cjs/loader.js:938:33
+      3    2.3%      LazyCompile: ~writevGeneric internal/stream_base_commons.js:118:23
+      3  100.0%        LazyCompile: ~Socket._writeGeneric net.js:761:42
+      3  100.0%          LazyCompile: ~Socket._writev net.js:793:36
+      3  100.0%            LazyCompile: ~doWrite internal/streams/writable.js:367:17
+      3    2.3%      LazyCompile: ~slice buffer.js:605:12
+      2   66.7%        LazyCompile: *deserializeObject C:\repositorios\JC\proyecto_node_coderhouse\node_modules\bson\lib\parser\deserializer.js:65:27
+      2  100.0%          LazyCompile: *deserializeObject C:\repositorios\JC\proyecto_node_coderhouse\node_modules\bson\lib\parser\deserializer.js:65:27
+      1   50.0%            LazyCompile: ~deserialize C:\repositorios\JC\proyecto_node_coderhouse\node_modules\bson\lib\parser\deserializer.js:36:21
+      1   50.0%            LazyCompile: *deserializeObject C:\repositorios\JC\proyecto_node_coderhouse\node_modules\bson\lib\parser\deserializer.js:65:27
+      1   33.3%        LazyCompile: ~toString buffer.js:775:46
+      1  100.0%          LazyCompile: ~readFileSync fs.js:391:22
+      1  100.0%            LazyCompile: ~Module._extensions..js internal/modules/cjs/loader.js:1094:37
+      3    2.3%      LazyCompile: *<anonymous> C:\repositorios\JC\proyecto_node_coderhouse\src\routes\randomsRouter.js:10:22
+      2   66.7%        LazyCompile: *handle C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\router\layer.js:86:49
+      2  100.0%          LazyCompile: ~next C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\router\route.js:114:16
+      2  100.0%            LazyCompile: ~dispatch C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\router\route.js:98:45
+      1   33.3%        LazyCompile: ~handle C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\router\layer.js:86:49
+      1  100.0%          LazyCompile: ~next C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\router\route.js:114:16
+      1  100.0%            LazyCompile: ~dispatch C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\router\route.js:98:45
+      2    1.6%      LazyCompile: ~writeHead _http_server.js:254:19
+      2  100.0%        LazyCompile: ~writeHead C:\repositorios\JC\proyecto_node_coderhouse\node_modules\on-headers\index.js:28:29
+      2  100.0%          LazyCompile: ~writeHead C:\repositorios\JC\proyecto_node_coderhouse\node_modules\on-headers\index.js:28:29
+      2  100.0%            LazyCompile: ~_implicitHeader _http_server.js:249:68
+      2    1.6%      LazyCompile: ~stringify C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\response.js:1123:20
+      2  100.0%        LazyCompile: *<anonymous> C:\repositorios\JC\proyecto_node_coderhouse\src\routes\randomsRouter.js:10:22
+      2  100.0%          LazyCompile: ~handle C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\router\layer.js:86:49
+      2  100.0%            LazyCompile: ~next C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\router\route.js:114:16
+      2    1.6%      LazyCompile: ~readPackage internal/modules/cjs/loader.js:258:21
+      2  100.0%        LazyCompile: ~resolveExports internal/modules/cjs/loader.js:440:24
+      2  100.0%          LazyCompile: ~Module._findPath internal/modules/cjs/loader.js:462:28
+      2  100.0%            LazyCompile: ~Module._resolveFilename internal/modules/cjs/loader.js:817:35
+      2    1.6%      LazyCompile: ~parse C:\repositorios\JC\proyecto_node_coderhouse\node_modules\content-type\index.js:106:16
+      2  100.0%        LazyCompile: ~setCharset C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\utils.js:247:41
+      2  100.0%          LazyCompile: ~send C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\response.js:107:25
+      2  100.0%            LazyCompile: *<anonymous> C:\repositorios\JC\proyecto_node_coderhouse\src\routes\randomsRouter.js:10:22
+      2    1.6%      LazyCompile: ~initialize C:\repositorios\JC\proyecto_node_coderhouse\node_modules\passport\lib\middleware\initialize.js:51:29
+      1   50.0%        LazyCompile: *trim_prefix C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\router\index.js:288:23
+      1  100.0%          LazyCompile: *next C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\router\index.js:176:16
+      1  100.0%            LazyCompile: ~urlencodedParser C:\repositorios\JC\proyecto_node_coderhouse\node_modules\body-parser\lib\types\urlencoded.js:79:36
+      1   50.0%        LazyCompile: *handle C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\router\layer.js:86:49
+      1  100.0%          LazyCompile: ~trim_prefix C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\router\index.js:288:23
+      1  100.0%            LazyCompile: *next C:\repositorios\JC\proyecto_node_coderhouse\node_modules\express\lib\router\index.js:176:16
+      2    1.6%      LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:273:27
+      2  100.0%        LazyCompile: ~nativeModuleRequire internal/bootstrap/loaders.js:306:29
+      1   50.0%          Eval: ~<anonymous> internal/source_map/source_map_cache.js:1:1
+      1  100.0%            LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:273:27
+      1   50.0%          Eval: ~<anonymous> child_process.js:1:1
+      1  100.0%            LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:273:27
+      4    2.0%    LazyCompile: ~processTimers internal/timers.js:485:25
+      4    2.0%    LazyCompile: ~deserializeObject C:\repositorios\JC\proyecto_node_coderhouse\node_modules\bson\lib\parser\deserializer.js:65:27
+      3   75.0%      LazyCompile: ~deserialize C:\repositorios\JC\proyecto_node_coderhouse\node_modules\bson\lib\parser\deserializer.js:36:21
+      3  100.0%        LazyCompile: ~deserialize C:\repositorios\JC\proyecto_node_coderhouse\node_modules\bson\lib\bson.js:162:21
+      3  100.0%          LazyCompile: ~parse C:\repositorios\JC\proyecto_node_coderhouse\node_modules\mongodb\lib\cmap\commands.js:577:10
+      3  100.0%            LazyCompile: ~onMessage C:\repositorios\JC\proyecto_node_coderhouse\node_modules\mongodb\lib\cmap\connection.js:152:14
+      1   25.0%      LazyCompile: ~deserializeObject C:\repositorios\JC\proyecto_node_coderhouse\node_modules\bson\lib\parser\deserializer.js:65:27
+      1  100.0%        LazyCompile: ~deserializeObject C:\repositorios\JC\proyecto_node_coderhouse\node_modules\bson\lib\parser\deserializer.js:65:27
+      1  100.0%          LazyCompile: ~deserialize C:\repositorios\JC\proyecto_node_coderhouse\node_modules\bson\lib\parser\deserializer.js:36:21
+      1  100.0%            LazyCompile: ~deserialize C:\repositorios\JC\proyecto_node_coderhouse\node_modules\bson\lib\bson.js:162:21
+
