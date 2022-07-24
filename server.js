@@ -1,10 +1,17 @@
 require('dotenv').config()
+<<<<<<< HEAD
 
+=======
+const autocannon = require('autocannon')
+const {PassThrough} = require('stream')
+>>>>>>> main
 let port = process.env.PORT
 const yargs = require('yargs/yargs')(process.argv.slice(2))
 const args = yargs.default({port:8080}).argv
 const numCPUs = require('os').cpus().length
+const compression = require('compression');
 
+const {loggerInfo,loggWarn,loggError} = require('./src/utils/logger')
 const express = require('express')
 const flash = require('connect-flash');
 const passport = require('passport')
@@ -17,7 +24,6 @@ const randomRouter      = require('./src/routes/randomsRouter')
 const compression = require('compression');
 
 const {fork} = require('child_process');
-const forked = fork('app/computo.js')
 
 const winston = require('winston')
 const logger = winston.createLogger({
@@ -41,7 +47,10 @@ const auth = require('./src/routes/auth')
 
 const app = express()
 app.use(compression())
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 app.set('view engine','pug')
 //app.use(express.static('./public'))
 
@@ -134,6 +143,30 @@ passport.deserializeUser((id, callback) => {
   UserModel.findById(id, callback)
 })
 
+function run (url)
+{
+  const buf = []
+  const outputStream = new PassThrough()
+
+  const inst = autocannon({
+    url,
+    connection :50,
+    duration:20
+  })
+
+  autocannon.track(inst,outputStream)
+
+  outputStream.on('data',data=>buf.push(data))
+  inst.on('done',function(){ 
+    process.stdout.write(Buffer.concat(buf))
+  })
+
+  console.log('Corriendo rutas con 0x')
+  run('http:localhost:8080/api/randoms')
+
+
+}
+
 //  LOGIN
 app.get('/login', auth.getLogin);
 app.post('/login', passport.authenticate('login', { failureRedirect: '/login',failureFlash : true}), auth.postLogin);
@@ -155,6 +188,20 @@ if(process.env.CONTAINER == 'MONGO')
 const {MensajesDao } = require(ruta)
 
 const mensajeDao = new MensajesDao();
+
+const rutasExistentes = function loggerRoute(req, res, next) 
+{
+  loggerInfo.log('warn',{'ruta':req.path})
+  return next();
+}
+
+const rutasInexistentes = function loggerRoute(req, res, next) 
+{
+  loggWarn.log('error',{'ruta':req.path})
+  return next();
+}
+
+app.use(rutasExistentes)
 
 function checkAuth(req, res, next) {
   if(req.session?.logged) {
@@ -184,17 +231,6 @@ app.get('/info',(req,res)=>{
             'path'        :process.cwd()+'/server.js'})
 });
 
-randomRouter.get('/', (req,res)=>{
-  const forked = fork('app/computo.js')
-  
-  let cant = parseInt(req.query.cant|| 1e6) 
-
-  forked.send({largo: cant})
-
-  let salida = []
-   forked.on('message',msj=>{res.json(msj)})
- 
-});
 
 
 app.use('/api/randoms',randomRouter)
@@ -246,6 +282,12 @@ io.on('connection', async (socket)=>{
   })
 }) 
 
+<<<<<<< HEAD
 router.get('/*', callback())
+=======
+app.get('/*',rutasInexistentes,(req,res)=>{{
+  res.json({'msg':'Ruta Inexistente revisar ./logg/warn.log'})
+}})
+>>>>>>> main
 
 httpServer.listen(port)

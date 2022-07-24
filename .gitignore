@@ -3,3 +3,5 @@ chat.txt
 carros.txt
 bd/ecommerce.sqlite3
 package-lock.json
+*.log
+logg

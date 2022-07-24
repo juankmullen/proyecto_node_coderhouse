@@ -5,12 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+<<<<<<< HEAD
     "start": "nodemon  server.js  "
+=======
+    "start": "0x  server.js "
+>>>>>>> main
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "autocannon": "^7.9.0",
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
     "connect-flash": "^0.1.1",
@@ -30,6 +35,7 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "pg": "^8.7.3",
+    "pino": "^8.1.0",
     "pm2": "^5.2.0",
     "pug": "^3.0.2",
     "socket.io": "^4.5.0",
